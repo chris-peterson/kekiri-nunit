@@ -1,44 +1,33 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using Autofac;
-using Module = Autofac.Module;
+using Microsoft.Extensions.DependencyModel;
 
 namespace Kekiri.IoC.Autofac
 {
-    internal class AutofacContainer : Container, IDisposable
+    class AutofacContainer : Container, IDisposable
     {
-        private ILifetimeScope _lifetimeScope;
+        readonly CustomizeBehaviorApi _customizations;
 
-        private static readonly Lazy<IContainer> _container = new Lazy<IContainer>(() =>
+        public AutofacContainer(CustomizeBehaviorApi customizations)
         {
-            var assemblies = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll")
-                .Where(n => !CustomBehavior.IsBlacklistedAssembly(n))
-                .Select(Assembly.LoadFrom)
-                .ToArray();
-
-            if (CustomBehavior.BuildContainer == null)
+            if (customizations == null)
             {
-                var containerBuilder = new ContainerBuilder();
-                containerBuilder.RegisterAssemblyTypes(assemblies);
-
-                var moduleRegistrationMethod = GetRegistrationMethodForThisAutofacVersion();
-                foreach (var module in CustomBehavior.Modules)
-                {
-                    moduleRegistrationMethod.Invoke(null, new object[] { containerBuilder, module });
-                }
-                return containerBuilder.Build();
+                customizations = new CustomizeBehaviorApi();
             }
+            _customizations = customizations;
+        }
 
-            return CustomBehavior.BuildContainer(assemblies);
-        });
+        ILifetimeScope _lifetimeScope;
 
         protected override T OnResolve<T>()
         {
             if (_lifetimeScope == null)
             {
-                _lifetimeScope = _container.Value.BeginLifetimeScope(
+                _lifetimeScope = BuildContainer().BeginLifetimeScope(
                     builder =>
                     {
                         foreach (var obj in Fakes)
@@ -62,16 +51,50 @@ namespace Kekiri.IoC.Autofac
             }
         }
 
-        private static MethodInfo GetRegistrationMethodForThisAutofacVersion()
+        IContainer BuildContainer()
         {
-            // Autofac 3.4+
-            var newLocation = Type.GetType("Autofac.ModuleRegistrationExtensions, Autofac");
-            return newLocation == null
-                // old location:
-                ? typeof(RegistrationExtensions).GetMethod("RegisterModule",
-                    new[] { typeof(ContainerBuilder), typeof(Module) })
-                : newLocation.GetMethod("RegisterModule",
-                    new[] { typeof(ContainerBuilder), typeof(Module) });
+            var assemblies = Directory.GetFiles(AppContext.BaseDirectory, "*.dll")
+                .Select(f => Path.GetFileNameWithoutExtension(f))
+                .Where(n => !_customizations.IsBlacklistedAssembly(n))
+                .SelectMany(a => GetReferencingAssemblies(a))
+                .Distinct()
+                .ToArray();
+
+            if (_customizations.BuildContainer == null)
+            {
+                var containerBuilder = new ContainerBuilder();
+                containerBuilder.RegisterAssemblyTypes(assemblies);
+
+                foreach (var module in _customizations.Modules)
+                {
+                    containerBuilder.RegisterModule(module);
+                }
+                return containerBuilder.Build();
+            }
+
+            return _customizations.BuildContainer(assemblies);
+        }
+
+        // Adapted from http://www.michael-whelan.net/replacing-appdomain-in-dotnet-core/
+        static IEnumerable<Assembly> GetReferencingAssemblies(string assemblyName)
+        {
+            var assemblies = new List<Assembly>();
+            var dependencies = DependencyContext.Default.RuntimeLibraries;
+            foreach (var library in dependencies)
+            {
+                if (IsCandidateLibrary(library, assemblyName))
+                {
+                    var assembly = Assembly.Load(new AssemblyName(library.Name));
+                    assemblies.Add(assembly);
+                }
+            }
+            return assemblies;
+        }
+
+        static bool IsCandidateLibrary(RuntimeLibrary library, string assemblyName)
+        {
+            return string.Compare(assemblyName, library.Name, ignoreCase:true) == 0
+                || library.Dependencies.Any(d => d.Name.StartsWith(assemblyName));
         }
     }
 }
