@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using Kekiri.Config;
 using Kekiri.Reporting;
@@ -79,7 +80,7 @@ namespace Kekiri.Impl
             {
                 featureReport = new FeatureReport(feature.ToString());
 
-                var featureAttribute = feature.GetType().GetField(featureReport.Name)
+                var featureAttribute = feature.GetType().GetTypeInfo().GetField(featureReport.Name)
                     .AttributeOrDefault<FeatureDescriptionAttribute>();
                 if (featureAttribute != null)
                 {
@@ -122,14 +123,14 @@ namespace Kekiri.Impl
 
         private IEnumerable<T> ExtractAttributesFromScenarioTest<T>() where T : class
         {
-            return _scenarioTestType.GetCustomAttributes(
+            return _scenarioTestType.GetTypeInfo().GetCustomAttributes(
                 typeof(T), true) as IEnumerable<T>;
         }
 
         private string GetScenarioDescriptionOrDefaultValue(ScenarioAttribute scenarioAttribute, Type declaringType)
         {
             return string.Format("{0}{1}",
-                declaringType.HasAttribute<ExampleAttribute>()
+                declaringType.GetTypeInfo().HasAttribute<ExampleAttribute>()
                     ? Settings.GetToken(TokenType.ScenarioOutline)
                     : Settings.GetToken(TokenType.Scenario),
                 scenarioAttribute == null || string.IsNullOrWhiteSpace(scenarioAttribute.Description)
@@ -179,7 +180,7 @@ namespace Kekiri.Impl
                 return null;
             }
 
-            if (stepName.StartsWith(prefix, StringComparison.InvariantCultureIgnoreCase))
+            if (stepName.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
             {
                 if (stepName.Length == prefix.Length)
                 {

@@ -15,9 +15,9 @@ namespace Kekiri.Impl
             // (in all cases except for duplicate name [either by override or new] in which case we prefer the most derived)
             var type = test.GetType();
             var subclassTypes = new Stack<Type>(new[] {type});
-            while (type != null && type.BaseType != typeof (Test))
+            while (type != null && type.GetTypeInfo().BaseType != typeof (Test))
             {
-                type = type.BaseType;
+                type = type.GetTypeInfo().BaseType;
                 subclassTypes.Push(type);
             }
 
@@ -43,7 +43,7 @@ namespace Kekiri.Impl
 
         private static IEnumerable<MethodInfo> AllMethods(Type t)
         {
-            return t.GetMethods(BindingFlags.Public | BindingFlags.NonPublic |
+            return t.GetTypeInfo().GetMethods(BindingFlags.Public | BindingFlags.NonPublic |
                                 BindingFlags.DeclaredOnly | BindingFlags.Static | BindingFlags.Instance);
         }
 
@@ -57,7 +57,7 @@ namespace Kekiri.Impl
 
         private static IEnumerable<KeyValuePair<string, object>> GetParameters(object test)
         {
-            var type = test.GetType();
+            var type = test.GetType().GetTypeInfo();
             var ctor = type.GetConstructors().SingleOrDefault();
             if (ctor != null)
             {
@@ -67,7 +67,7 @@ namespace Kekiri.Impl
                         .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
                         .SingleOrDefault(
                             p => string.Compare(p.Name.TrimStart('_'), parameter.Name,
-                                StringComparison.InvariantCultureIgnoreCase) == 0);
+                                StringComparison.OrdinalIgnoreCase) == 0);
                     if (backedField != null)
                     {
                         object value;

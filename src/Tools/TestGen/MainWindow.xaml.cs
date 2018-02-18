@@ -119,20 +119,20 @@ namespace Kekiri.TestGen
             var stepToken = stepType.ToString();
             
             const string andToken = "And";
-            if (str.StartsWith(andToken, StringComparison.InvariantCultureIgnoreCase))
+            if (str.StartsWith(andToken, StringComparison.OrdinalIgnoreCase))
             {
                 str = str.Substring(andToken.Length);
                 stepToken = andToken;
             }
 
             const string butToken = "But";
-            if (str.StartsWith(butToken, StringComparison.InvariantCultureIgnoreCase))
+            if (str.StartsWith(butToken, StringComparison.OrdinalIgnoreCase))
             {
                 str = str.Substring(butToken.Length);
                 stepToken = butToken;
             }
 
-            if (str.StartsWith(stepToken, StringComparison.InvariantCultureIgnoreCase))
+            if (str.StartsWith(stepToken, StringComparison.OrdinalIgnoreCase))
             {
                 str = str.Substring(stepToken.Length);
             }

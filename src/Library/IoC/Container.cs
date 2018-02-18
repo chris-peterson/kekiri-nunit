@@ -1,17 +1,15 @@
 ﻿using System;
+using System.Reflection;
 using System.Collections.Generic;
 
 namespace Kekiri.IoC
 {
     public abstract class Container
     {
-        private readonly List<object> _fakes = new List<object>();
-        private bool _registrationClosed;
+        readonly List<object> _fakes = new List<object>();
+        bool _registrationClosed;
 
-        protected IEnumerable<object> Fakes
-        {
-            get { return _fakes; }
-        }
+        protected IEnumerable<object> Fakes => _fakes;
 
         public void Register(object instance)
         {
@@ -22,7 +20,7 @@ namespace Kekiri.IoC
 
             if (ReferenceEquals(instance, null))
             {
-                throw new ArgumentNullException("instance");
+                throw new ArgumentNullException(nameof(instance));
             }
 
             // check for Moq -- we don't want to take on a dependency so we use reflection
@@ -31,14 +29,14 @@ namespace Kekiri.IoC
             {
                 if (type.Name == "Mock")
                 {
-                    var objectProperty = type.GetProperty("Object");
+                    var objectProperty = type.GetTypeInfo().GetProperty("Object");
                     if (objectProperty != null)
                     {
                         instance = objectProperty.GetValue(instance, null);
                         break;
                     }
                 }
-                type = type.BaseType;
+                type = type.GetTypeInfo().BaseType;
             }
 
             _fakes.Add(instance);
