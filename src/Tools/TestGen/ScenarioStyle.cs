@@ -2,7 +2,6 @@
 {
     public enum ScenarioStyle
     {
-        Classic,
-        Fluent
+        Classic        
     }
 }

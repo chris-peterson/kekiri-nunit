@@ -7,9 +7,6 @@
             <Button Click="OnGenerateClassicClick">
                 Generate Classic Scenario
             </Button>
-            <Button Click="OnGenerateFluentClick">
-                Generate Fluent Scenario
-            </Button>
         </StackPanel>
         <TextBox x:Name="_textBox" TextWrapping="Wrap" AcceptsReturn="True" />
     </DockPanel>

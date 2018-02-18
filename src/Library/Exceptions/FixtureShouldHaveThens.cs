@@ -13,8 +13,6 @@ namespace Kekiri.Exceptions
 
             if (test is Test)
                 messageDetail = "; a then method should be a parameterless public method that uses the [Then] attribute";
-            else if (test is FluentTest)
-                messageDetail = "; a then should be specified by calling Then in the constructor";
 
             return "No thens found" + messageDetail;
         }

@@ -53,14 +53,12 @@
     <Compile Include="Exceptions\ThenFailed.cs" />
     <Compile Include="Exceptions\StepMethodShouldBePublic.cs" />
     <Compile Include="Exceptions\StepNotFound.cs" />
-    <Compile Include="FluentTest.cs" />
     <Compile Include="Impl\IStepInvoker.cs" />
     <Compile Include="Impl\ScenarioRunner.cs" />
     <Compile Include="Impl\StepMethodInvoker.cs" />
     <Compile Include="Impl\StepClassInvoker.cs" />
     <Compile Include="Impl\StepName.cs" />
     <Compile Include="IoC\IContainerAccessor.cs" />
-    <Compile Include="IoC\IoCFluentTest.cs" />
     <Compile Include="IoC\IoCTest.cs" />
     <Compile Include="IoC\Container.cs" />
     <Compile Include="Impl\IContextAccessor.cs" />

@@ -17,11 +17,6 @@ namespace Kekiri.TestGen
             ProcessScenario(ScenarioStyle.Classic);
         }
 
-        private void OnGenerateFluentClick(object sender, RoutedEventArgs e)
-        {
-            ProcessScenario(ScenarioStyle.Fluent);
-        }
-
         void ProcessScenario(ScenarioStyle style)
         {
             var builder = new StringBuilder();
@@ -78,15 +73,6 @@ namespace Kekiri.TestGen
                 builder.AppendLine($"   public class {className} : {GetScenarioTypeName(style)}");
                 builder.AppendLine("   {");
 
-                if (style == ScenarioStyle.Fluent)
-                {
-                    builder.AppendLine($"      public {className}()");
-                    builder.AppendLine("      {");
-                    builder.AppendLine("         TODO");
-                    builder.AppendLine("      }");
-                    builder.AppendLine();
-                }
-
                 return;
             }
 
@@ -110,8 +96,6 @@ namespace Kekiri.TestGen
             {
                 case ScenarioStyle.Classic:
                     return "public ";
-                case ScenarioStyle.Fluent:
-                    return "";
                 default:
                     throw new NotSupportedException($"{style} is not supported");
             }
@@ -123,8 +107,6 @@ namespace Kekiri.TestGen
             {
                 case ScenarioStyle.Classic:
                     return "Test";
-                case ScenarioStyle.Fluent:
-                    return "FluentTest";
                 default:
                     throw new NotSupportedException($"{style} is not supported");
             }
