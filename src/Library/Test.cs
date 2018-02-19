@@ -10,7 +10,7 @@ namespace Kekiri
         private ScenarioRunner _scenarioRunner;
         private IReportTarget _reportTarget;
 
-        [SetUp]
+        [OneTimeSetUp]
         public virtual void SetupScenario()
         {
             _reportTarget = CreateReportTarget();
@@ -26,7 +26,7 @@ namespace Kekiri
             //thens are executed by NUnit
         }
 
-        [TearDown]
+        [OneTimeTearDown]
         public virtual void CleanupScenario()
         {
             _scenarioRunner.AssertExceptionCompliance();
