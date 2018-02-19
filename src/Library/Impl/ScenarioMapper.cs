@@ -52,7 +52,7 @@ namespace Kekiri.Impl
             if (method.GetCustomAttributes(true).Any(a => a.GetType() == typeof (TestAttribute)))
                 throw new FixtureShouldNotUseTestAttribute(method);
 
-            return method.HasAttribute<IStepAttribute>();
+            return StepMethodInvoker.GetStepType(method).HasValue;
         }
 
         private static IEnumerable<KeyValuePair<string, object>> GetParameters(object test)

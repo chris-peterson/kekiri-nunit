@@ -4,11 +4,7 @@ using NUnit.Framework;
 namespace Kekiri
 {
     [AttributeUsage(AttributeTargets.Method)]
-    public class ThenAttribute : TestAttribute, IStepAttribute
+    public class ThenAttribute : TestAttribute
     {
-        public StepType StepType
-        {
-            get { return StepType.Then; }
-        }
     }
 }
