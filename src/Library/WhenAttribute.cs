@@ -3,11 +3,7 @@ using System;
 namespace Kekiri
 {
     [AttributeUsage(AttributeTargets.Method)]
-    public class WhenAttribute : Attribute, IStepAttribute
+    public class WhenAttribute : Attribute
     {
-        public StepType StepType
-        {
-            get { return StepType.When; }
-        }
     }
 }

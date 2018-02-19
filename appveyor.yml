@@ -1,0 +1,14 @@
+version: 3.9.0.{build}
+image: Visual Studio 2017
+build_script:
+- ps: >-
+    dotnet build -c Release
+test_script:
+- ps: >-
+    dotnet test src/Tests/UnitTests/UnitTests.csproj
+
+    dotnet test src/Tests/Autofac/4.0.0/Autofac-4.0.0.csproj
+
+    dotnet test src/Tests/Autofac/4.6.2/Autofac-4.6.2.csproj
+artifacts:
+- path: src\**\bin\Release\*.nupkg

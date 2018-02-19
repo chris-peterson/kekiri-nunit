@@ -1,18 +1,22 @@
 # Kekiri
+
 A .NET framework that supports writing low-ceremony BDD tests using Gherkin language.
 
 Kekiri honors the conventions of the [cucumber language] (https://github.com/cucumber/cucumber/wiki/Feature-Introduction)
 
 ## Setup
-`PM> Install-Package Kekiri`  
+
+`PM> Install-Package Kekiri`
 
 ## Why Kekiri?
+
 Unlike other BDD frameworks that impose process overhead (management of feature files, custom tools, etc)
 Kekiri allows developers to write BDD tests just as quickly and easily as they would technical tests.
 
 The resulting tests are concise, highly portable, and adhere to [Act, Arrange, and Assert](http://www.arrangeactassert.com/why-and-what-is-arrange-act-assert/).
 
 ## Example
+
 For this **Test**, we will be implementing a basic calculator.
 
 ### Start with the test
@@ -46,6 +50,7 @@ If we were to run this test (even though it fails) we get a nice Cucumber-style 
         Then the screen should display result of 120
 
 ### Add the implementation
+
 ```c#
     class Adding_two_numbers : Test {
         private Calculator _calculator;
@@ -91,22 +96,26 @@ If we were to run this test (even though it fails) we get a nice Cucumber-style 
 ---
 
 ## Supported Naming Conventions
+
 Kekiri supports both Pascal case conventions (e.g. `WhenDoingTheThing`) just as it does
 underscore convention (e.g. `When_doing_the_thing`).
 
 ---
 
 ## .feature file output
+
 Kekiri is capable of generating .feature files when running tests.  To do so, decorate your test fixtures with `[Scenario(Feature.X)]`.  The names of your features will be the names of the generated .feature files.
 
 ---
 
 ## Wiki
+
 [More info available here](https://github.com/chris-peterson/Kekiri/wiki)
 
 ## Other common use cases
 
 ### Expected Exceptions
+
 ```c#
     class Divide_by_zero : Test {
         readonly Calculator _calculator = new Calculator();
@@ -132,6 +141,7 @@ be caught (using the templated method `Catch<>`).
         Then it should throw an exception
 
 ### Data-driven
+
 ```c#
     [Example(12, 5, 7)]
     [Example(20, 5, 15)]
@@ -169,8 +179,7 @@ be caught (using the templated method `Catch<>`).
         When i eat 5 cucumbers
         Then i should have 7 cucumbers
 
-
-For more advanced topics, check out the [wiki](https://github.com/chris-peterson/Kekiri/wiki).
+For more advanced topics, check out the [wiki](https://github.com/chris-peterson/kekiri-nunit/wiki).
 
 ## Contributing
 
@@ -180,9 +189,10 @@ For more advanced topics, check out the [wiki](https://github.com/chris-peterson
 4. Push to the branch `git push origin my-new-feature`
 5. Create new Pull Request
 
-
 ## Acknowledgements
+
 Kekiri uses and is influenced by the following open source projects:
+
 * http://nunit.org/
 * https://code.google.com/p/autofac/
 * https://github.com/dennisdoomen/FluentAssertions

@@ -25,7 +25,7 @@ namespace Kekiri.Reporting
             return new CompositeReportTarget(
                 new[]
                 {
-                    TraceReportTarget.GetInstance(),
+                    DebugReportTarget.GetInstance(),
                     FeatureFileReportTarget.GetInstance()
                 });
         }
@@ -113,11 +113,11 @@ namespace Kekiri.Reporting
         }
     }
 
-    internal class TraceReportTarget : IReportTarget
+    class DebugReportTarget : IReportTarget
     {
-        private static readonly Lazy<TraceReportTarget> _target = new Lazy<TraceReportTarget>(() => new TraceReportTarget());
+        static readonly Lazy<DebugReportTarget> _target = new Lazy<DebugReportTarget>(() => new DebugReportTarget());
 
-        private TraceReportTarget()
+        DebugReportTarget()
         {
         }
 
@@ -128,7 +128,7 @@ namespace Kekiri.Reporting
 
         public void Report(ScenarioReportingContext scenario)
         {
-            Trace.WriteLine(scenario.CreateReport());
+            Debug.WriteLine(scenario.CreateReport());
         }
     }
 }

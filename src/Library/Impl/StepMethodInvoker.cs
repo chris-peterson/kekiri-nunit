@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -19,7 +20,7 @@ namespace Kekiri.Impl
         public KeyValuePair<string, object>[] Parameters { get; private set; } 
 
         public StepMethodInvoker(MethodBase method, KeyValuePair<string, object>[] supportedParameters = null)
-            : this(method.AttributeOrDefault<IStepAttribute>().StepType, method, supportedParameters) { }
+            : this(GetStepType(method).Value, method, supportedParameters) { }
 
         public StepMethodInvoker(StepType stepType, MethodBase method, KeyValuePair<string, object>[] supportedParameters = null)
         {
@@ -34,6 +35,26 @@ namespace Kekiri.Impl
         public virtual void Invoke(object test)
         {
             Method.Invoke(Method.IsStatic ? null : test, Parameters.Select(p => p.Value).ToArray());
+        }
+
+        public static StepType? GetStepType(MethodBase method)
+        {
+            var given = method.AttributeOrDefault<GivenAttribute>();
+            if (given != null)
+            {
+                return StepType.Given;
+            }
+            var when = method.AttributeOrDefault<WhenAttribute>();
+            if (when != null)
+            {
+                return StepType.When;
+            }
+            var then = method.AttributeOrDefault<ThenAttribute>();
+            if (then != null)
+            {
+                return StepType.Then;
+            }
+            return null;
         }
     }
 }
