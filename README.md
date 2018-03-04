@@ -120,7 +120,7 @@ Kekiri is capable of generating .feature files when running tests.  To do so, de
 
 ## Wiki
 
-More detailed documentation can be found on the [wiki].(<https://github.com/chris-peterson/kekiri-nunit/wiki>)
+More detailed documentation can be found on the [wiki](<https://github.com/chris-peterson/kekiri-nunit/wiki>).
 
 ## Other common use cases
 

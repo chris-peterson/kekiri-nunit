@@ -1,4 +1,4 @@
-version: 3.9.0.{build}
+version: 3.9.1.{build}
 image: Visual Studio 2017
 build_script:
 - ps: >-
@@ -12,3 +12,4 @@ test_script:
     dotnet test src/Tests/Autofac/4.6.2/Autofac-4.6.2.csproj
 artifacts:
 - path: src\**\bin\Release\*.nupkg
+skip_tags: true
