@@ -1,14 +1,24 @@
-# Kekiri
+# Overview
 
 A .NET framework that supports writing low-ceremony BDD tests using Gherkin language.
 
-Kekiri honors the conventions of the [cucumber language] (https://github.com/cucumber/cucumber/wiki/Feature-Introduction)
+Kekiri honors the conventions of the
+[cucumber language](<https://github.com/cucumber/cucumber/wiki/Feature-Introduction>)
+
+## Status
+
+[![Build status](https://ci.appveyor.com/api/projects/status/wlf5svx969v88mh1?svg=true)](https://ci.appveyor.com/project/chris-peterson/kekiri-nunit)
+
+Package | Latest Release |
+:-------- | :------------ |
+Kekiri | [![NuGet version](https://img.shields.io/nuget/dt/Kekiri.svg)](<https://www.nuget.org/packages/kekiri>)
+Kekiri.IoC.Autofac | [![NuGet version](https://img.shields.io/nuget/dt/Kekiri.IoC.Autofac.svg)](<https://www.nuget.org/packages/kekiri.ioc.autofac>)
 
 ## Setup
 
 `PM> Install-Package Kekiri`
 
-## Why Kekiri?
+## Why Kekiri
 
 Unlike other BDD frameworks that impose process overhead (management of feature files, custom tools, etc)
 Kekiri allows developers to write BDD tests just as quickly and easily as they would technical tests.
@@ -110,7 +120,7 @@ Kekiri is capable of generating .feature files when running tests.  To do so, de
 
 ## Wiki
 
-[More info available here](https://github.com/chris-peterson/Kekiri/wiki)
+More detailed documentation can be found on the [wiki].(<https://github.com/chris-peterson/kekiri-nunit/wiki>)
 
 ## Other common use cases
 
@@ -193,8 +203,8 @@ For more advanced topics, check out the [wiki](https://github.com/chris-peterson
 
 Kekiri uses and is influenced by the following open source projects:
 
-* http://nunit.org/
-* https://code.google.com/p/autofac/
-* https://github.com/dennisdoomen/FluentAssertions
-* https://github.com/andyalm/xrepo
-* https://github.com/picklesdoc/pickles
+* [NUnit](<http://nunit.org>)
+* [Xunit](<https://xunit.github.io>)
+* [Autofac](<https://github.com/autofac/Autofac>)
+* [xrepo](<https://github.com/andyalm/xrepo>)
+* [Pickles](<https://github.com/picklesdoc/pickles>)

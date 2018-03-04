@@ -4,7 +4,7 @@
     <Copyright>2012-2018</Copyright>
     <PackageId>Kekiri.IoC.Autofac</PackageId>
     <AssemblyName>Kekiri.IoC.Autofac</AssemblyName>
-    <Version>3.9.0-beta1</Version>
+    <Version>3.9.0</Version>
     <Description>Autofac IoC integration for Kekiri</Description>
     <Authors>Chris Peterson</Authors>
     <Company />
@@ -14,7 +14,7 @@
     <RootNamespace>$(AssemblyName)</RootNamespace>
     <PackageTags>bdd;scenario;test;gherkin;cucumber;pickles;nunit;specflow</PackageTags>
     <PackageReleaseNotes>
-    - Upgrade to .netcore
+Upgrade to .netcore
     </PackageReleaseNotes>
     <PackageProjectUrl>http://github.com/chris-peterson/kekiri-nunit</PackageProjectUrl>
     <PackageLicenseUrl>http://opensource.org/licenses/MIT</PackageLicenseUrl>

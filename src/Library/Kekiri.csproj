@@ -4,7 +4,7 @@
     <Copyright>2012-2018</Copyright>
     <PackageId>Kekiri</PackageId>
     <AssemblyName>Kekiri</AssemblyName>
-    <Version>3.9.0-beta1</Version>
+    <Version>3.9.0</Version>
     <Description>A .NET framework that supports writing low-ceremony BDD tests using Gherkin language.</Description>
     <Authors>Chris Peterson</Authors>
     <Company />
@@ -14,8 +14,10 @@
     <RootNamespace>$(AssemblyName)</RootNamespace>
     <PackageTags>bdd;scenario;test;gherkin;cucumber;pickles;nunit;specflow</PackageTags>
     <PackageReleaseNotes>
-    - Drop FluentTest (preferred usage model with NUnit is attributes)
-    - Support .netcore and latest NUnit (3.9.0)
+Upgrade to .netcore
+
+- Drop FluentTest (preferred usage model for NUnit is attribute-style)
+- Require latest NUnit (3.9.0)
     </PackageReleaseNotes>
     <PackageProjectUrl>http://github.com/chris-peterson/kekiri-nunit</PackageProjectUrl>
     <PackageLicenseUrl>http://opensource.org/licenses/MIT</PackageLicenseUrl>
