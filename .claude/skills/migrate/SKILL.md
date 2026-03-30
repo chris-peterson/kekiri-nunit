@@ -58,12 +58,16 @@ public class Adding_two_numbers : Scenarios
 
 **Identifying markers:** `using Kekiri.NUnit;`, `: Scenarios` or `: Scenarios<T>` base class, fluent `Given()`/`When()`/`Then()` calls in the constructor.
 
-### Target: Kekiri.Xunit
+### Target: Modern Kekiri (Xunit or NUnit)
 
-Both paths converge to the same target — `[Scenario]` methods with fluent API:
+Both paths converge to the same fluent API — `[Scenario]` methods with `Given()`/`When()`/`Then()`. The only difference is the `using` and the test runner infrastructure:
 
 ```csharp
+// xUnit target
 using Kekiri.Xunit;
+
+// OR NUnit target
+// using Kekiri.NUnit;
 
 public class Adding_two_numbers : Scenarios
 {
@@ -79,6 +83,16 @@ public class Adding_two_numbers : Scenarios
     private void adding() { _result = _calc.Add(1, 2); }
     private void the_result_is_3() { _result.Should().Be(3); }
 }
+```
+
+Both `Kekiri.Xunit.Scenarios` and `Kekiri.NUnit.Scenarios` inherit from the same `ScenarioBase` — the fluent API, Context, Container, Step classes, and exception handling are identical. The differences are only in test discovery and fixture lifecycle:
+
+| Aspect | Kekiri.Xunit | Kekiri.NUnit |
+|--------|-------------|-------------|
+| Package | `Kekiri.Xunit` | `Kekiri.NUnit` |
+| Data-driven | `[ScenarioOutline]` + `[Example]` | `[ScenarioOutline]` + `[Example]` |
+| Bootstrap | `ICollectionFixture<T>` | `[SetUpFixture]` + `[OneTimeSetUp]` |
+| Skip | `[Scenario(Skip = "reason")]` | `[Ignore("reason")]` |
 ```
 
 ---
@@ -474,7 +488,7 @@ public class My_scenario : Scenarios
 
 ### B3. IoC Bootstrap
 
-**Before (NUnit):**
+**Before (old Kekiri.NUnit with constructor-driven scenarios):**
 ```csharp
 [SetUpFixture]
 public class Bootstrap
@@ -487,7 +501,7 @@ public class Bootstrap
 }
 ```
 
-**After (xUnit):**
+**After (xUnit target):**
 ```csharp
 public class AutofacFixture : IDisposable
 {
@@ -500,6 +514,8 @@ public class AutofacCollection : ICollectionFixture<AutofacFixture> { }
 ```
 
 Every test class that needs Autofac gets `[Collection("AutofacCollection")]`.
+
+**After (modern NUnit target):** The `[SetUpFixture]` pattern still works — no change needed for bootstrap. Just move Given/When/Then from the constructor to `[Scenario]` methods.
 
 ### B4. Container → Typed Context (Optional)
 
